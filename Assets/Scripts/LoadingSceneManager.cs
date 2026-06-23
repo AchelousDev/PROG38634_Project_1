@@ -2,11 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class LoadingSceneManager : MonoBehaviour
 {
     public float loadingTime = 15f;
     public TMP_Text loadingText;
+    public RectTransform progressFill;
+    public float progressBarWidth = 600f;
 
     private void Start()
     {
@@ -21,10 +24,17 @@ public class LoadingSceneManager : MonoBehaviour
         {
             timer += Time.deltaTime;
 
+            float progress = Mathf.Clamp01(timer / loadingTime);
+            int progressPercent = Mathf.RoundToInt(progress * 100f);
+
             if (loadingText != null)
             {
-                int progress = Mathf.Clamp(Mathf.RoundToInt((timer / loadingTime) * 100f), 0, 100);
-                loadingText.text = "Loading... " + progress + "%";
+                loadingText.text = "Loading... " + progressPercent + "%";
+            }
+
+            if (progressFill != null)
+            {
+                progressFill.sizeDelta = new Vector2(progressBarWidth * progress, progressFill.sizeDelta.y);
             }
 
             yield return null;
