@@ -9,7 +9,11 @@ public class CameraTargetController : MonoBehaviour
     public float mouseSensitivity = 180f;
     public bool lockCursorWhileRotating = false;
 
+    [Header("Mobile Settings")]
+    public float mobileRotateSpeed = 180f;
+
     private float yaw;
+    private float mobileRotateInput;
 
     private void Start()
     {
@@ -57,5 +61,26 @@ public class CameraTargetController : MonoBehaviour
                 Cursor.visible = true;
             }
         }
+
+        if (Mathf.Abs(mobileRotateInput) > 0.01f)
+        {
+            yaw += mobileRotateInput * mobileRotateSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+        }
+    }
+
+    public void RotateLeftDown()
+    {
+        mobileRotateInput = -1f;
+    }
+
+    public void RotateRightDown()
+    {
+        mobileRotateInput = 1f;
+    }
+
+    public void RotateStop()
+    {
+        mobileRotateInput = 0f;
     }
 }

@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +35,9 @@ public class MovementInput : MonoBehaviour {
     public float verticalVel;
     private Vector3 moveVector;
 
+    private float mobileInputX;
+    private float mobileInputZ;
+
 	// Use this for initialization
 	void Start () {
 		anim = this.GetComponent<Animator> ();
@@ -63,9 +65,6 @@ public class MovementInput : MonoBehaviour {
     }
 
     void PlayerMoveAndRotation() {
-		InputX = Input.GetAxis ("Horizontal");
-		InputZ = Input.GetAxis ("Vertical");
-
 		var camera = Camera.main;
 		var forward = cam.transform.forward;
 		var right = cam.transform.right;
@@ -78,7 +77,7 @@ public class MovementInput : MonoBehaviour {
 
 		desiredMoveDirection = forward * InputZ + right * InputX;
 
-		if (blockRotationPlayer == false) {
+		if (blockRotationPlayer == false && desiredMoveDirection.sqrMagnitude > 0.01f) {
 			transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (desiredMoveDirection), desiredRotationSpeed);
             controller.Move(desiredMoveDirection * Time.deltaTime * Velocity);
 		}
@@ -102,15 +101,15 @@ public class MovementInput : MonoBehaviour {
     }
 
 	void InputMagnitude() {
-		//Calculate Input Vectors
-		InputX = Input.GetAxis ("Horizontal");
-		InputZ = Input.GetAxis ("Vertical");
+		//Calculate Input Vectors from keyboard and mobile UI buttons
+		InputX = Mathf.Clamp(Input.GetAxis ("Horizontal") + mobileInputX, -1f, 1f);
+		InputZ = Mathf.Clamp(Input.GetAxis ("Vertical") + mobileInputZ, -1f, 1f);
 
 		//anim.SetFloat ("InputZ", InputZ, VerticalAnimTime, Time.deltaTime * 2f);
 		//anim.SetFloat ("InputX", InputX, HorizontalAnimSmoothTime, Time.deltaTime * 2f);
 
 		//Calculate the Input Magnitude
-		Speed = new Vector2(InputX, InputZ).sqrMagnitude;
+		Speed = Mathf.Clamp01(new Vector2(InputX, InputZ).sqrMagnitude);
 
         //Physically move player
 
@@ -121,4 +120,34 @@ public class MovementInput : MonoBehaviour {
 			anim.SetFloat ("Blend", Speed, StopAnimTime, Time.deltaTime);
 		}
 	}
+
+    public void MobileForwardDown()
+    {
+        mobileInputZ = 1f;
+    }
+
+    public void MobileBackwardDown()
+    {
+        mobileInputZ = -1f;
+    }
+
+    public void MobileLeftDown()
+    {
+        mobileInputX = -1f;
+    }
+
+    public void MobileRightDown()
+    {
+        mobileInputX = 1f;
+    }
+
+    public void MobileVerticalUp()
+    {
+        mobileInputZ = 0f;
+    }
+
+    public void MobileHorizontalUp()
+    {
+        mobileInputX = 0f;
+    }
 }
