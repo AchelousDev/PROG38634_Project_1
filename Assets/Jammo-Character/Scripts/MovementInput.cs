@@ -38,6 +38,9 @@ public class MovementInput : MonoBehaviour {
     private float mobileInputX;
     private float mobileInputZ;
 
+    private float joystickInputX;
+    private float joystickInputZ;
+
 	// Use this for initialization
 	void Start () {
 		anim = this.GetComponent<Animator> ();
@@ -102,8 +105,8 @@ public class MovementInput : MonoBehaviour {
 
 	void InputMagnitude() {
 		//Calculate Input Vectors from keyboard and mobile UI buttons
-		InputX = Mathf.Clamp(Input.GetAxis ("Horizontal") + mobileInputX, -1f, 1f);
-		InputZ = Mathf.Clamp(Input.GetAxis ("Vertical") + mobileInputZ, -1f, 1f);
+		InputX = Mathf.Clamp(Input.GetAxis ("Horizontal") + mobileInputX + joystickInputX, -1f, 1f);
+		InputZ = Mathf.Clamp(Input.GetAxis ("Vertical") + mobileInputZ + joystickInputZ, -1f, 1f);
 
 		//anim.SetFloat ("InputZ", InputZ, VerticalAnimTime, Time.deltaTime * 2f);
 		//anim.SetFloat ("InputX", InputX, HorizontalAnimSmoothTime, Time.deltaTime * 2f);
@@ -149,5 +152,23 @@ public class MovementInput : MonoBehaviour {
     public void MobileHorizontalUp()
     {
         mobileInputX = 0f;
+    }
+
+    public void SetJoystickInput(Vector2 direction)
+    {
+        joystickInputX = Mathf.Clamp(direction.x, -1f, 1f);
+        joystickInputZ = Mathf.Clamp(direction.y, -1f, 1f);
+    }
+
+    public void SetJoystickInput(float horizontal, float vertical)
+    {
+        joystickInputX = Mathf.Clamp(horizontal, -1f, 1f);
+        joystickInputZ = Mathf.Clamp(vertical, -1f, 1f);
+    }
+
+    public void ResetJoystickInput()
+    {
+        joystickInputX = 0f;
+        joystickInputZ = 0f;
     }
 }
