@@ -25,17 +25,17 @@ public class StatsManager : MonoBehaviour
 
         if (totalScoreText != null)
         {
-            totalScoreText.text = "Total Accumulated Score Time: " + FormatTime(totalScoreTime);
+            totalScoreText.text = "Total Play Time: " + FormatTime(totalScoreTime);
         }
 
         if (bestRunText != null)
         {
-            bestRunText.text = "Best Run Time: " + FormatTime(bestRunTime);
+            bestRunText.text = gamePlays > 0 ? "Best Run Time: " + FormatTime(bestRunTime) : "Best Run Time: --:--.---";
         }
 
         if (gamePlaysText != null)
         {
-            gamePlaysText.text = "Number of Game Plays: " + gamePlays;
+            gamePlaysText.text = "Game Plays: " + gamePlays;
         }
     }
 
@@ -47,7 +47,7 @@ public class StatsManager : MonoBehaviour
 
         PlayerPrefs.SetFloat(TotalScoreKey, currentTotal + scoreTime);
 
-        if (scoreTime > currentBest)
+        if (currentPlays == 0 || scoreTime < currentBest)
         {
             PlayerPrefs.SetFloat(BestRunKey, scoreTime);
         }
@@ -68,7 +68,8 @@ public class StatsManager : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(time / 60f);
         int seconds = Mathf.FloorToInt(time % 60f);
+        int milliseconds = Mathf.FloorToInt((time * 1000f) % 1000f);
 
-        return $"{minutes:00}:{seconds:00}";
+        return $"{minutes:00}:{seconds:00}.{milliseconds:000}";
     }
 }

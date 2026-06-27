@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [Header("Timer Settings")]
-    public float startTime = 60f;
     public TMP_Text timerText;
+    public float movementStartThreshold = 0.1f;
     
     [Header("Player")]
     public Animator playerAnimator;
@@ -18,12 +18,14 @@ public class GameManager : MonoBehaviour
     public Transform debugTeleportExit;
     public KeyCode debugTeleportKey = KeyCode.K;
 
-    private float currentTime;
+    private float elapsedTime;
+    private bool timerStarted = false;
     private bool gameFinished = false;
 
     private void Start()
     {
-        currentTime = startTime;
+        elapsedTime = 0f;
+        UpdateTimerUI();
     }
 
     private void Update()
@@ -38,28 +40,46 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        currentTime -= Time.deltaTime;
+        if (!timerStarted)
+        {
+            timerStarted = HasPlayerStartedMoving();
+        }
+
+        if (timerStarted)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+
         UpdateTimerUI();
     }
 
     private void UpdateTimerUI()
     {
-        float displayTime = currentTime;
+        int minutes = Mathf.FloorToInt(elapsedTime / 60f);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60f);
+        int milliseconds = Mathf.FloorToInt((elapsedTime * 1000f) % 1000f);
 
-        int minutes = Mathf.FloorToInt(Mathf.Abs(displayTime) / 60f);
-        int seconds = Mathf.FloorToInt(Mathf.Abs(displayTime) % 60f);
-        int milliseconds = Mathf.FloorToInt((Mathf.Abs(displayTime) * 1000f) % 1000f);
-
-        if (displayTime < 0)
+        if (timerStarted)
         {
-            timerText.text = $"- Time: {minutes:00}:{seconds:00}.{milliseconds:000}";
-            timerText.color = Color.red;
+            timerText.text = $"Time: {minutes:00}:{seconds:00}.{milliseconds:000}";
         }
         else
         {
-            timerText.text = $"Time: {minutes:00}:{seconds:00}.{milliseconds:000}";
-            timerText.color = Color.white;
+            timerText.text = "Time: 00:00.000";
         }
+
+        timerText.color = Color.white;
+    }
+
+    private bool HasPlayerStartedMoving()
+    {
+        if (playerMovement == null || !playerMovement.enabled)
+        {
+            return false;
+        }
+
+        Vector2 movementInput = new Vector2(playerMovement.InputX, playerMovement.InputZ);
+        return movementInput.magnitude > movementStartThreshold;
     }
 
     public void FinishGame()
@@ -86,10 +106,10 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.PlayFinishSound();
         }
 
-        float score = Mathf.Max(0f, currentTime);
+        float score = elapsedTime;
         StatsManager.AddGameResult(score);
 
-        timerText.text = "Finished! Score: " + score.ToString("F2");
+        timerText.text = "Finished! Time: " + score.ToString("F2") + "s";
 
         Invoke(nameof(ReturnToHome), 5f);
     }

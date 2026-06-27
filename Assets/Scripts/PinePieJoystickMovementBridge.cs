@@ -9,12 +9,13 @@ public class PinePieJoystickMovementBridge : MonoBehaviour
 
     [Header("Camera Swipe Rotation")]
     public Transform cameraTarget;
-    public float cameraSensitivity = 0.12f;
+    public float cameraSensitivity = 0.25f;
     public float minPitch = -25f;
     public float maxPitch = 60f;
 
     private float cameraYaw;
     private float cameraPitch;
+    private Vector2 previousMousePosition;
 
     private void Start()
     {
@@ -67,9 +68,17 @@ public class PinePieJoystickMovementBridge : MonoBehaviour
         }
 
 #if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0))
+        {
+            previousMousePosition = Input.mousePosition;
+        }
+
         if (Input.GetMouseButton(0) && Input.mousePosition.x >= Screen.width * 0.5f)
         {
-            Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 10f;
+            Vector2 currentMousePosition = Input.mousePosition;
+            Vector2 mouseDelta = currentMousePosition - previousMousePosition;
+            previousMousePosition = currentMousePosition;
+
             RotateCamera(mouseDelta);
         }
 #endif

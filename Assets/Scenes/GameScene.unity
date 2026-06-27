@@ -1266,7 +1266,7 @@ MonoBehaviour:
   worldPanDuration: 10
   characterZoomDuration: 4
   targetZoomDuration: 4
-  worldPanRotationSpeed: 15
+  worldPanRotationSpeed: 17
   characterWideFov: 60
   characterCloseFov: 35
   targetWideFov: 65
@@ -3515,8 +3515,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d61885d2ea44bc18cd6f659e53cb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  startTime: 60
   timerText: {fileID: 658617899}
+  movementStartThreshold: 0.1
   playerAnimator: {fileID: 1818377502}
   playerMovement: {fileID: 1818377499}
   finishAnimationStateName: Victory Idle
@@ -4264,7 +4264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraTargetController
   player: {fileID: 78361833}
-  mouseSensitivity: 2.5
+  mouseSensitivity: 5
   lockCursorWhileRotating: 0
   mobileRotateSpeed: 180
 --- !u!4 &1057717010 stripped
@@ -5837,7 +5837,7 @@ MonoBehaviour:
   playerMovement: {fileID: 1818377499}
   joystickController: {fileID: 207553518}
   cameraTarget: {fileID: 1051075690}
-  cameraSensitivity: 0.12
+  cameraSensitivity: 0.25
   minPitch: -25
   maxPitch: 60
 --- !u!4 &1410628642
