@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LoadingSceneManager : MonoBehaviour
 {
-    public float loadingTime = 15f;
+    public float loadingTime = 5f;
     public TMP_Text loadingText;
     public RectTransform progressFill;
     public float progressBarWidth = 600f;
@@ -29,7 +29,7 @@ public class LoadingSceneManager : MonoBehaviour
 
             if (loadingText != null)
             {
-                loadingText.text = "Loading... " + progressPercent + "%";
+                loadingText.text = "Establishing Satellite Link..." + progressPercent + "%";
             }
 
             if (progressFill != null)
