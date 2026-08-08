@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerEyes
+  - Monster
+  - BattleWarrior
+  - TeleportGuard
+  - EndpointGuard
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - Water
   - UI
   - CharacterPreview
-  - 
+  - Monster
   - 
   - 
   - 

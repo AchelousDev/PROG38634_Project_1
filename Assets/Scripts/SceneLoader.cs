@@ -10,12 +10,17 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("NPCGameScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     public void LoadSettingsScene()
     {
         SceneManager.LoadScene("SettingScene");
+    }
+    
+    public void OpenARScoreboard()
+    {
+        SceneManager.LoadScene("ARScoreboardScene");
     }
 
     public void QuitGame()

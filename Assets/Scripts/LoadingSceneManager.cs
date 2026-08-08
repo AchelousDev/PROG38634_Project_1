@@ -29,7 +29,7 @@ public class LoadingSceneManager : MonoBehaviour
 
             if (loadingText != null)
             {
-                loadingText.text = "Establishing Satellite Link..." + progressPercent + "%";
+                loadingText.text = "Transporting..." + progressPercent + "%";
             }
 
             if (progressFill != null)

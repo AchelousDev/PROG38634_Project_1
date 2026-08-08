@@ -1,75 +1,71 @@
-using TMPro;
 using UnityEngine;
 
-public class StatsManager : MonoBehaviour
+public static class StatsManager
 {
-    [Header("Home Scene Texts")]
-    public TMP_Text totalScoreText;
-    public TMP_Text bestRunText;
-    public TMP_Text gamePlaysText;
-
-    private const string TotalScoreKey = "TotalScoreTime";
-    private const string BestRunKey = "BestRunTime";
+    private const string TotalScoreKey = "TotalScore";
+    private const string BestScoreKey = "BestScore";
     private const string GamePlaysKey = "GamePlays";
+    private const string LastScoreKey = "LastScore";
 
-    private void Start()
+    public static void AddGameResult(int score)
     {
-        UpdateStatsUI();
-    }
-
-    public void UpdateStatsUI()
-    {
-        float totalScoreTime = PlayerPrefs.GetFloat(TotalScoreKey, 0f);
-        float bestRunTime = PlayerPrefs.GetFloat(BestRunKey, 0f);
+        int totalScore = PlayerPrefs.GetInt(TotalScoreKey, 0);
+        int bestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
         int gamePlays = PlayerPrefs.GetInt(GamePlaysKey, 0);
 
-        if (totalScoreText != null)
+        totalScore += score;
+        gamePlays++;
+
+        if (score > bestScore)
         {
-            totalScoreText.text = "Total Play Time: " + FormatTime(totalScoreTime);
+            bestScore = score;
         }
 
-        if (bestRunText != null)
-        {
-            bestRunText.text = gamePlays > 0 ? "Best Run Time: " + FormatTime(bestRunTime) : "Best Run Time: --:--.---";
-        }
+        PlayerPrefs.SetInt(TotalScoreKey, totalScore);
+        PlayerPrefs.SetInt(BestScoreKey, bestScore);
+        PlayerPrefs.SetInt(GamePlaysKey, gamePlays);
+        PlayerPrefs.SetInt(LastScoreKey, score);
 
-        if (gamePlaysText != null)
-        {
-            gamePlaysText.text = "Game Plays: " + gamePlays;
-        }
+        PlayerPrefs.Save();
+
+        Debug.Log(
+            $"Game Result Saved | " +
+            $"Score: {score} | " +
+            $"Best Score: {bestScore} | " +
+            $"Total Score: {totalScore} | " +
+            $"Game Plays: {gamePlays}"
+        );
     }
 
-    public static void AddGameResult(float scoreTime)
+    public static int GetTotalScore()
     {
-        float currentTotal = PlayerPrefs.GetFloat(TotalScoreKey, 0f);
-        float currentBest = PlayerPrefs.GetFloat(BestRunKey, 0f);
-        int currentPlays = PlayerPrefs.GetInt(GamePlaysKey, 0);
+        return PlayerPrefs.GetInt(TotalScoreKey, 0);
+    }
 
-        PlayerPrefs.SetFloat(TotalScoreKey, currentTotal + scoreTime);
+    public static int GetBestScore()
+    {
+        return PlayerPrefs.GetInt(BestScoreKey, 0);
+    }
 
-        if (currentPlays == 0 || scoreTime < currentBest)
-        {
-            PlayerPrefs.SetFloat(BestRunKey, scoreTime);
-        }
+    public static int GetGamePlays()
+    {
+        return PlayerPrefs.GetInt(GamePlaysKey, 0);
+    }
 
-        PlayerPrefs.SetInt(GamePlaysKey, currentPlays + 1);
-        PlayerPrefs.Save();
+    public static int GetLastScore()
+    {
+        return PlayerPrefs.GetInt(LastScoreKey, 0);
     }
 
     public static void ResetStats()
     {
         PlayerPrefs.DeleteKey(TotalScoreKey);
-        PlayerPrefs.DeleteKey(BestRunKey);
+        PlayerPrefs.DeleteKey(BestScoreKey);
         PlayerPrefs.DeleteKey(GamePlaysKey);
+        PlayerPrefs.DeleteKey(LastScoreKey);
+
         PlayerPrefs.Save();
-    }
 
-    private string FormatTime(float time)
-    {
-        int minutes = Mathf.FloorToInt(time / 60f);
-        int seconds = Mathf.FloorToInt(time % 60f);
-        int milliseconds = Mathf.FloorToInt((time * 1000f) % 1000f);
-
-        return $"{minutes:00}:{seconds:00}.{milliseconds:000}";
+        Debug.Log("Game stats reset.");
     }
 }

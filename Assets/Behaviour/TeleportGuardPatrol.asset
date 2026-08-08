@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a7c8ca992f915438a96c2077353778, type: 3}
+  m_Name: TeleportGuardPatrol
+  m_EditorClassIdentifier: Assembly-CSharp::BrickAsset
+  brickName: Assets/Behaviour/TeleportGuardPatrol.asset
+  xml: "\uFEFF<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<BehaviorBricks xmlns:ref=\"urn:padaone\"
+    version=\"1.0\">\n  <BehaviorTree id=\"0\" />\n  <runtimeInfo>\n    <BehaviorTree
+    id=\"0\" guid=\"f5653b0da0869405191f0ef4efe24958\" nextId=\"19\">\n      <root>\n       
+    <RepeatDecorator id=\"1\" />\n      </root>\n      <inputParams>\n        <inputValues>\n         
+    <entry name=\"PatrolPoint_01\" type=\"UnityEngine.GameObject\" isBlackboard=\"False\"
+    />\n          <entry name=\"PatrolPoint_02\" type=\"UnityEngine.GameObject\"
+    isBlackboard=\"False\" />\n          <entry name=\"PatrolPoint_03\" type=\"UnityEngine.GameObject\"
+    isBlackboard=\"False\" />\n          <entry name=\"PatrolPoint_04\" type=\"UnityEngine.GameObject\"
+    isBlackboard=\"False\" />\n        </inputValues>\n      </inputParams>\n     
+    <outputParams />\n      <localParams />\n    </BehaviorTree>\n    <RepeatDecorator
+    id=\"1\" loops=\"-1\" policy=\"ContinueWhenChildFails\">\n      <child>\n       
+    <SequenceNode id=\"2\" />\n      </child>\n      <inputParams />\n      <outputParams
+    />\n      <localParams />\n    </RepeatDecorator>\n    <SequenceNode id=\"2\">\n     
+    <children>\n        <elem>\n          <ActionNode id=\"11\" />\n        </elem>\n       
+    <elem>\n          <ActionNode id=\"13\" />\n        </elem>\n        <elem>\n         
+    <ActionNode id=\"3\" />\n        </elem>\n        <elem>\n          <ActionNode
+    id=\"14\" />\n        </elem>\n        <elem>\n          <ActionNode id=\"15\"
+    />\n        </elem>\n        <elem>\n          <ActionNode id=\"16\" />\n       
+    </elem>\n        <elem>\n          <ActionNode id=\"17\" />\n        </elem>\n       
+    <elem>\n          <ActionNode id=\"18\" />\n        </elem>\n      </children>\n     
+    <inputParams />\n      <outputParams />\n      <localParams />\n    </SequenceNode>\n   
+    <ActionNode id=\"11\" action=\"Navigation/MoveToGameObject\">\n      <inputParams>\n       
+    <inputValues>\n          <entry name=\"target\" type=\"UnityEngine.GameObject\"
+    isBlackboard=\"True\" blackboard=\"PatrolPoint_01\" />\n        </inputValues>\n     
+    </inputParams>\n      <outputParams />\n      <localParams />\n    </ActionNode>\n   
+    <ActionNode id=\"13\" action=\"Basic/WaitForSeconds\">\n      <inputParams>\n       
+    <inputValues>\n          <entry name=\"seconds\" type=\"System.Single\" isBlackboard=\"False\"
+    value=\"2\" />\n        </inputValues>\n      </inputParams>\n      <outputParams
+    />\n      <localParams />\n    </ActionNode>\n    <ActionNode id=\"3\" action=\"Navigation/MoveToGameObject\">\n     
+    <inputParams>\n        <inputValues>\n          <entry name=\"target\" type=\"UnityEngine.GameObject\"
+    isBlackboard=\"True\" blackboard=\"PatrolPoint_02\" />\n        </inputValues>\n     
+    </inputParams>\n      <outputParams />\n      <localParams />\n    </ActionNode>\n   
+    <ActionNode id=\"14\" action=\"Basic/WaitForSeconds\">\n      <inputParams>\n       
+    <inputValues>\n          <entry name=\"seconds\" type=\"System.Single\" isBlackboard=\"False\"
+    value=\"2\" />\n        </inputValues>\n      </inputParams>\n      <outputParams
+    />\n      <localParams />\n    </ActionNode>\n    <ActionNode id=\"15\" action=\"Navigation/MoveToGameObject\">\n     
+    <inputParams>\n        <inputValues>\n          <entry name=\"target\" type=\"UnityEngine.GameObject\"
+    isBlackboard=\"True\" blackboard=\"PatrolPoint_03\" />\n        </inputValues>\n     
+    </inputParams>\n      <outputParams />\n      <localParams />\n    </ActionNode>\n   
+    <ActionNode id=\"16\" action=\"Basic/WaitForSeconds\">\n      <inputParams>\n       
+    <inputValues>\n          <entry name=\"seconds\" type=\"System.Single\" isBlackboard=\"False\"
+    value=\"2\" />\n        </inputValues>\n      </inputParams>\n      <outputParams
+    />\n      <localParams />\n    </ActionNode>\n    <ActionNode id=\"17\" action=\"Navigation/MoveToGameObject\">\n     
+    <inputParams>\n        <inputValues>\n          <entry name=\"target\" type=\"UnityEngine.GameObject\"
+    isBlackboard=\"True\" blackboard=\"PatrolPoint_04\" />\n        </inputValues>\n     
+    </inputParams>\n      <outputParams />\n      <localParams />\n    </ActionNode>\n   
+    <ActionNode id=\"18\" action=\"Basic/WaitForSeconds\">\n      <inputParams>\n       
+    <inputValues>\n          <entry name=\"seconds\" type=\"System.Single\" isBlackboard=\"False\"
+    value=\"2\" />\n        </inputValues>\n      </inputParams>\n      <outputParams
+    />\n      <localParams />\n    </ActionNode>\n  </runtimeInfo>\n  <editorInfo>\n   
+    <BehaviorTree id=\"0\" _name=\"TeleportGuardPatrol\" _description=\"\" _removeIfClosed=\"False\">\n     
+    <_rootList>\n        <elem>\n          <RepeatDecorator id=\"1\" />\n       
+    </elem>\n        <elem>\n          <SequenceNode id=\"2\" />\n        </elem>\n       
+    <elem>\n          <ActionNode id=\"3\" />\n        </elem>\n        <elem>\n         
+    <ActionNode id=\"11\" />\n        </elem>\n        <elem>\n          <ActionNode
+    id=\"13\" />\n        </elem>\n        <elem>\n          <ActionNode id=\"14\"
+    />\n        </elem>\n        <elem>\n          <ActionNode id=\"15\" />\n       
+    </elem>\n        <elem>\n          <ActionNode id=\"16\" />\n        </elem>\n       
+    <elem>\n          <ActionNode id=\"17\" />\n        </elem>\n        <elem>\n         
+    <ActionNode id=\"18\" />\n        </elem>\n      </_rootList>\n      <_nodes>\n       
+    <nodes>\n          <RepeatDecorator id=\"1\" />\n          <SequenceNode id=\"2\"
+    />\n          <ActionNode id=\"3\" />\n          <ActionNode id=\"11\" />\n         
+    <ActionNode id=\"13\" />\n          <ActionNode id=\"14\" />\n          <ActionNode
+    id=\"15\" />\n          <ActionNode id=\"16\" />\n          <ActionNode id=\"17\"
+    />\n          <ActionNode id=\"18\" />\n        </nodes>\n      </_nodes>\n   
+    </BehaviorTree>\n    <RepeatDecorator id=\"1\">\n      <_data>\n        <data
+    breakpoint=\"0\" selected=\"False\" position=\"359.625 87.25\" name=\"Repeat\"
+    description=\"Repeats the execution of its child node\" cardinality=\"1\" hasParent=\"False\">\n         
+    <BehaviorTree id=\"0\" />\n          <RepeatDecorator id=\"1\" />\n        </data>\n     
+    </_data>\n    </RepeatDecorator>\n    <SequenceNode id=\"2\">\n      <_data>\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"363.625 240.25\" name=\"Sequence\"
+    description=\"Executes all its children in sequence until all of them are successful\"
+    cardinality=\"-1\" hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n         
+    <SequenceNode id=\"2\" />\n          <RepeatDecorator id=\"1\" />\n        </data>\n     
+    </_data>\n    </SequenceNode>\n    <ActionNode id=\"11\">\n      <_data>\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"198.75 380\" name=\"Navigation/MoveToGameObject\"
+    description=\"Moves the game object towards a given target by using a NavMeshAgent\"
+    cardinality=\"0\" hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n         
+    <ActionNode id=\"11\" />\n          <SequenceNode id=\"2\" />\n        </data>\n     
+    </_data>\n    </ActionNode>\n    <ActionNode id=\"13\">\n      <_data>\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"218.75 506.25\" name=\"Basic/WaitForSeconds\"
+    description=\"Action that success after a period of time.\" cardinality=\"0\"
+    hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n          <ActionNode
+    id=\"13\" />\n          <SequenceNode id=\"2\" />\n        </data>\n      </_data>\n   
+    </ActionNode>\n    <ActionNode id=\"3\">\n      <_data>\n        <data breakpoint=\"0\"
+    selected=\"False\" position=\"478.625 388\" name=\"Navigation/MoveToGameObject\"
+    description=\"Moves the game object towards a given target by using a NavMeshAgent\"
+    cardinality=\"0\" hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n         
+    <ActionNode id=\"3\" />\n          <SequenceNode id=\"2\" />\n        </data>\n     
+    </_data>\n    </ActionNode>\n    <ActionNode id=\"14\">\n      <_data>\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"505 510\" name=\"Basic/WaitForSeconds\"
+    description=\"Action that success after a period of time.\" cardinality=\"0\"
+    hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n          <ActionNode
+    id=\"14\" />\n          <SequenceNode id=\"2\" />\n        </data>\n      </_data>\n   
+    </ActionNode>\n    <ActionNode id=\"15\">\n      <_data>\n        <data breakpoint=\"0\"
+    selected=\"False\" position=\"761.25 390\" name=\"Navigation/MoveToGameObject\"
+    description=\"Moves the game object towards a given target by using a NavMeshAgent\"
+    cardinality=\"0\" hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n         
+    <ActionNode id=\"15\" />\n          <SequenceNode id=\"2\" />\n        </data>\n     
+    </_data>\n    </ActionNode>\n    <ActionNode id=\"16\">\n      <_data>\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"781.25 515\" name=\"Basic/WaitForSeconds\"
+    description=\"Action that success after a period of time.\" cardinality=\"0\"
+    hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n          <ActionNode
+    id=\"16\" />\n          <SequenceNode id=\"2\" />\n        </data>\n      </_data>\n   
+    </ActionNode>\n    <ActionNode id=\"17\">\n      <_data>\n        <data breakpoint=\"0\"
+    selected=\"False\" position=\"1021.25 395\" name=\"Navigation/MoveToGameObject\"
+    description=\"Moves the game object towards a given target by using a NavMeshAgent\"
+    cardinality=\"0\" hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n         
+    <ActionNode id=\"17\" />\n          <SequenceNode id=\"2\" />\n        </data>\n     
+    </_data>\n    </ActionNode>\n    <ActionNode id=\"18\">\n      <_data>\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"1041.25 505\" name=\"Basic/WaitForSeconds\"
+    description=\"Action that success after a period of time.\" cardinality=\"0\"
+    hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n          <ActionNode
+    id=\"18\" />\n          <SequenceNode id=\"2\" />\n        </data>\n      </_data>\n   
+    </ActionNode>\n  </editorInfo>\n</BehaviorBricks>"
+  zoom: 0.8
+  subslist: []
+  _guid: f5653b0da0869405191f0ef4efe24958

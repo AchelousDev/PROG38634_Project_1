@@ -4,28 +4,29 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Timer Settings")]
-    public TMP_Text timerText;
-    public float movementStartThreshold = 0.1f;
-    
+    [Header("Score Settings")]
+    public TMP_Text scoreText;
+    public int scorePerMonster = 100;
+
     [Header("Player")]
     public Animator playerAnimator;
     public MovementInput playerMovement;
     public string finishAnimationStateName = "Victory Idle";
-    
+
     [Header("Debug Teleport")]
     public Transform player;
     public Transform debugTeleportExit;
     public KeyCode debugTeleportKey = KeyCode.K;
 
-    private float elapsedTime;
-    private bool timerStarted = false;
+    private int currentScore = 0;
     private bool gameFinished = false;
+
+    public int CurrentScore => currentScore;
 
     private void Start()
     {
-        elapsedTime = 0f;
-        UpdateTimerUI();
+        currentScore = 0;
+        UpdateScoreUI();
     }
 
     private void Update()
@@ -34,52 +35,27 @@ public class GameManager : MonoBehaviour
         {
             DebugTeleportToExit();
         }
+    }
 
+    public void AddMonsterKill()
+    {
         if (gameFinished)
         {
             return;
         }
 
-        if (!timerStarted)
-        {
-            timerStarted = HasPlayerStartedMoving();
-        }
+        currentScore += scorePerMonster;
+        UpdateScoreUI();
 
-        if (timerStarted)
-        {
-            elapsedTime += Time.deltaTime;
-        }
-
-        UpdateTimerUI();
+        Debug.Log($"Monster defeated! Score: {currentScore}");
     }
 
-    private void UpdateTimerUI()
+    private void UpdateScoreUI()
     {
-        int minutes = Mathf.FloorToInt(elapsedTime / 60f);
-        int seconds = Mathf.FloorToInt(elapsedTime % 60f);
-        int milliseconds = Mathf.FloorToInt((elapsedTime * 1000f) % 1000f);
-
-        if (timerStarted)
+        if (scoreText != null)
         {
-            timerText.text = $"Time: {minutes:00}:{seconds:00}.{milliseconds:000}";
+            scoreText.text = $"Score: {currentScore}";
         }
-        else
-        {
-            timerText.text = "Time: 00:00.000";
-        }
-
-        timerText.color = Color.white;
-    }
-
-    private bool HasPlayerStartedMoving()
-    {
-        if (playerMovement == null || !playerMovement.enabled)
-        {
-            return false;
-        }
-
-        Vector2 movementInput = new Vector2(playerMovement.InputX, playerMovement.InputZ);
-        return movementInput.magnitude > movementStartThreshold;
     }
 
     public void FinishGame()
@@ -90,7 +66,7 @@ public class GameManager : MonoBehaviour
         }
 
         gameFinished = true;
-        
+
         if (playerMovement != null)
         {
             playerMovement.enabled = false;
@@ -100,16 +76,18 @@ public class GameManager : MonoBehaviour
         {
             playerAnimator.Play(finishAnimationStateName);
         }
-        
+
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayFinishSound();
         }
 
-        float score = elapsedTime;
-        StatsManager.AddGameResult(score);
+        StatsManager.AddGameResult(currentScore);
 
-        timerText.text = "Finished! Time: " + score.ToString("F2") + "s";
+        if (scoreText != null)
+        {
+            scoreText.text = $"Final Score: {currentScore}";
+        }
 
         Invoke(nameof(ReturnToHome), 5f);
     }
@@ -118,17 +96,20 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("HomeScene");
     }
-    
+
     private void DebugTeleportToExit()
     {
         if (player == null || debugTeleportExit == null)
         {
-            Debug.LogWarning("Debug teleport failed: Player or Debug Teleport Exit is not assigned.");
+            Debug.LogWarning(
+                "Debug teleport failed: Player or Debug Teleport Exit is not assigned."
+            );
             return;
         }
 
         MovementInput movement = player.GetComponent<MovementInput>();
-        CharacterController controller = player.GetComponent<CharacterController>();
+        CharacterController controller =
+            player.GetComponent<CharacterController>();
 
         if (movement != null)
         {

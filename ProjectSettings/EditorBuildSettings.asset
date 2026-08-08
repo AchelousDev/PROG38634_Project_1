@@ -12,13 +12,19 @@ EditorBuildSettings:
     path: Assets/Scenes/HomeScene.unity
     guid: a375294519f1b49d29d4b25ffd88fe96
   - enabled: 1
-    path: Assets/Scenes/NPCGameScene.unity
-    guid: ead42db7c54a440a597951f69f51cceb
+    path: Assets/Scenes/GameScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/SettingScene.unity
     guid: b4ebf48cd653f4ec1954f25083c6c8c4
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/NPCGameScene.unity
+    guid: ead42db7c54a440a597951f69f51cceb
+  - enabled: 1
+    path: Assets/Scenes/ARScoreboardScene.unity
+    guid: 132e48efd84454f6b995a1600381ae88
   m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 636030a0988924b468060afff97b3db5, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 6fa33d2c377644f05a6c1f428cbb2391, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 9018665b67ddb46eb814f34773f818f6, type: 2}

@@ -7,6 +7,10 @@ public class PinePieJoystickMovementBridge : MonoBehaviour
     public MovementInput playerMovement;
     public JoystickController joystickController;
 
+    [Header("Spell")]
+    public WizardSpellController spellController;
+    public float tapThreshold = 40f;
+
     [Header("Camera Swipe Rotation")]
     public Transform cameraTarget;
     public float cameraSensitivity = 0.25f;
@@ -16,6 +20,9 @@ public class PinePieJoystickMovementBridge : MonoBehaviour
     private float cameraYaw;
     private float cameraPitch;
     private Vector2 previousMousePosition;
+
+    private Vector2 touchStartPosition;
+    private int spellTouchFingerId = -1;
 
     private void Start()
     {
@@ -30,7 +37,7 @@ public class PinePieJoystickMovementBridge : MonoBehaviour
     private void Update()
     {
         UpdateJoystickMovement();
-        UpdateCameraSwipeRotation();
+        UpdateCameraAndSpellTouch();
     }
 
     private void UpdateJoystickMovement()
@@ -44,44 +51,105 @@ public class PinePieJoystickMovementBridge : MonoBehaviour
         playerMovement.SetJoystickInput(input);
     }
 
-    private void UpdateCameraSwipeRotation()
+    private void UpdateCameraAndSpellTouch()
     {
-        if (cameraTarget == null)
-        {
-            return;
-        }
-
         if (Input.touchCount > 0)
         {
             foreach (Touch touch in Input.touches)
             {
+                // Only use the right half of the screen
                 if (touch.position.x < Screen.width * 0.5f)
                 {
                     continue;
                 }
 
+                if (touch.phase == TouchPhase.Began)
+                {
+                    touchStartPosition = touch.position;
+                    spellTouchFingerId = touch.fingerId;
+                }
+
                 if (touch.phase == TouchPhase.Moved)
                 {
-                    RotateCamera(touch.deltaPosition);
+                    if (cameraTarget != null)
+                    {
+                        RotateCamera(touch.deltaPosition);
+                    }
+                }
+
+                if (touch.phase == TouchPhase.Ended &&
+                    touch.fingerId == spellTouchFingerId)
+                {
+                    float touchDistance =
+                        Vector2.Distance(touchStartPosition, touch.position);
+
+                    if (touchDistance <= tapThreshold)
+                    {
+                        CastSpell();
+                    }
+
+                    spellTouchFingerId = -1;
+                }
+
+                if (touch.phase == TouchPhase.Canceled &&
+                    touch.fingerId == spellTouchFingerId)
+                {
+                    spellTouchFingerId = -1;
                 }
             }
         }
 
 #if UNITY_EDITOR
+        UpdateMouseTesting();
+#endif
+    }
+
+#if UNITY_EDITOR
+    private void UpdateMouseTesting()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             previousMousePosition = Input.mousePosition;
+            touchStartPosition = Input.mousePosition;
         }
 
-        if (Input.GetMouseButton(0) && Input.mousePosition.x >= Screen.width * 0.5f)
+        if (Input.GetMouseButton(0) &&
+            Input.mousePosition.x >= Screen.width * 0.5f)
         {
             Vector2 currentMousePosition = Input.mousePosition;
-            Vector2 mouseDelta = currentMousePosition - previousMousePosition;
+            Vector2 mouseDelta =
+                currentMousePosition - previousMousePosition;
+
             previousMousePosition = currentMousePosition;
 
-            RotateCamera(mouseDelta);
+            if (cameraTarget != null)
+            {
+                RotateCamera(mouseDelta);
+            }
         }
+
+        if (Input.GetMouseButtonUp(0) &&
+            Input.mousePosition.x >= Screen.width * 0.5f)
+        {
+            float mouseDistance = Vector2.Distance(
+                touchStartPosition,
+                (Vector2)Input.mousePosition
+            );
+
+            if (mouseDistance <= tapThreshold)
+            {
+                CastSpell();
+            }
+        }
+    }
 #endif
+
+    private void CastSpell()
+    {
+        if (spellController != null)
+        {
+            spellController.CastSpellFromTouch();
+        }
     }
 
     private void RotateCamera(Vector2 delta)
@@ -90,7 +158,8 @@ public class PinePieJoystickMovementBridge : MonoBehaviour
         cameraPitch -= delta.y * cameraSensitivity;
         cameraPitch = Mathf.Clamp(cameraPitch, minPitch, maxPitch);
 
-        cameraTarget.rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0f);
+        cameraTarget.rotation =
+            Quaternion.Euler(cameraPitch, cameraYaw, 0f);
     }
 
     private float NormalizeAngle(float angle)
