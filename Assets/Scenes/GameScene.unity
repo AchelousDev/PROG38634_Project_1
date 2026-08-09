@@ -681,11 +681,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71350192}
   m_CullTransparentMesh: 1
---- !u!4 &78361833 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 539745478100655087, guid: bd6ee82c5e06b3f4f86113cbf8261ae1, type: 3}
-  m_PrefabInstance: {fileID: 1781961795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &105203413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5980,7 +5975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedfc181a5ef5452ebd666b369fd90d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapCameraFollow
-  target: {fileID: 78361833}
+  target: {fileID: 533387519}
   height: 30
 --- !u!20 &1100732857
 Camera:
